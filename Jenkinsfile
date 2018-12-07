@@ -12,7 +12,7 @@ String getCommitId() {
     return gitHash.trim()
   }
   else {
-    return sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
+    return bat(script: 'git rev-parse HEAD', returnStdout: true).trim()
   }
 }
 
@@ -23,7 +23,7 @@ def postGitHub(commitId, state, context, description, targetUrl) {
       description: description,
       target_url: targetUrl
   )
-  sh "curl -H \"Authorization: token ${gitHubApiToken}\" --request POST --data '${payload}' https://api.github.com/repos/${project}/statuses/${commitId} > /dev/null"
+  bat "curl -H \"Authorization: token ${gitHubApiToken}\" --request POST --data '${payload}' https://api.github.com/repos/${project}/statuses/${commitId} > /dev/null"
 }
 
 node {
@@ -32,7 +32,7 @@ node {
         postGitHub commitId, 'pending', 'build', 'Build is running'
 
         try {
-          sh  "${mvnHome}/bin/mvn clean package"
+          bat  "${mvnHome}/bin/mvn clean package"
           postGitHub commitId, 'success', 'build', 'Build succeeded'
         } catch (error) {
           postGitHub commitId, 'failure', 'build', 'Build failed'
