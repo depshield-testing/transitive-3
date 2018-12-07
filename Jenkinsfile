@@ -30,6 +30,5 @@ def postGitHub(commitId, state, context, description, targetUrl) {
     description: description,
     target_url: targetUrl
   )
-  sh "curl -H \"Authorization: token ${gitHubApiToken}\" --request POST --data '${payload}'
-  https://api.github.com/repos/${project}/statuses/${commitId} > /dev/null"
+  sh "curl -H \"Authorization: token ${gitHubApiToken}\" --request POST --data '${payload}' https://api.github.com/repos/${project}/statuses/${commitId} > /dev/null"
 }
