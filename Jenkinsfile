@@ -1,3 +1,21 @@
+String getCommitId() {
+  // This may be called in two situations
+  // 1) during a build in which case we have the full git info
+  // 2) during a deploy in staging/prod in which case we do not have git, just the copied artifacts. In this case we grab it from build-info.json
+
+  def exists = fileExists 'build-info.json'
+
+  if (exists) {
+    def props = readJSON file: 'build-info.json'
+    gitHash = props['gitHash']
+    assert gitHash != null
+    return gitHash.trim()
+  }
+  else {
+    return sh(script: 'git rev-parse HEAD', returnStdout: true).trim()
+  }
+}
+
 def postGitHub(commitId, state, context, description, targetUrl) {
   def payload = JsonOutput.toJson(
       state: state,
@@ -10,6 +28,7 @@ def postGitHub(commitId, state, context, description, targetUrl) {
 
 node {
     stage('Build') {
+        def commitId = getCommitId()
         postGitHub commitId, 'pending', 'build', 'Build is running'
 
         try {
@@ -22,6 +41,7 @@ node {
     }
 
     stage('Nexus Lifecycle Analysis') {
+        def commitId = getCommitId()
         postGitHub commitId, 'pending', 'analysis', 'Nexus Lifecycle Analysis is running'
 
         try {
