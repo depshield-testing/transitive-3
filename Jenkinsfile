@@ -1,6 +1,9 @@
 @Library('transitive-pipeline-library') _
 
-withEnv(['ENVIRONMENT=dev']) {
+withEnv([
+    'ENVIRONMENT=dev',
+    'project=depshield-testing/transitive-3'
+  ]) {
   withCredentials([
     string(credentialsId: 'gitHubApiToken', variable: 'gitHubApiToken')
   ]) {
