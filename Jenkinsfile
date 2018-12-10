@@ -1,6 +1,10 @@
 @Library('transitive-pipeline-library') _
 
-node {
+withEnv(['ENVIRONMENT=dev']) {
+  withCredentials([
+    string(credentialsId: 'gitHubApiToken', variable: 'gitHibApiToken')
+  ]) {
+  node {
     stage('Build') {
         def commitId = transitive.getCommitId()
         transitive.postGitHub(commitId, 'pending', 'build', 'Build is running', '')
@@ -27,4 +31,6 @@ node {
           throw error
         }
     }
+  }
+  }
 }
