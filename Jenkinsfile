@@ -9,7 +9,7 @@ withEnv([
   ]) {
   node {
     stage('Build') {
-        def commitId = transitive.getCommitId()
+        def commitId = ${GIT_COMMIT} //transitive.getCommitId()
         transitive.postGitHub(commitId, 'pending', 'build', 'Build is running', '')
 
         try {
@@ -22,7 +22,7 @@ withEnv([
     }
 
     stage('Nexus Lifecycle Analysis') {
-        def commitId = transitive.getCommitId()
+        def commitId = ${GIT_COMMIT} //transitive.getCommitId()
         transitive.postGitHub(commitId, 'pending', 'analysis', 'Nexus Lifecycle Analysis is running', '')
 
         try {
