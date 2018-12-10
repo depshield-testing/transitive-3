@@ -12,9 +12,12 @@ String getCommitId() {
     return gitHash.trim()
   }
   else {
-    def p = "git rev-parse HEAD".execute()
-    def bri = new BufferedReader (new InputStreamReader(p.getInputStream()))
-    return bri.readLine().trim()
+    stdout = bat(returnStdout:true , script: 'git rev-parse HEAD').trim()
+    result = stdout.readLines().drop(1).join(" ")
+    return result
+//    def p = "git rev-parse HEAD".execute()
+//    def bri = new BufferedReader (new InputStreamReader(p.getInputStream()))
+//    return bri.readLine().trim()
     //bat "git rev-parse HEAD"
 
     //bat(script: 'git rev-parse HEAD', returnStdout: true).trim()
