@@ -2,7 +2,7 @@
 
 withEnv(['ENVIRONMENT=dev']) {
   withCredentials([
-    string(credentialsId: 'gitHubApiToken', variable: 'gitHibApiToken')
+    string(credentialsId: 'gitHubApiToken', variable: 'gitHubApiToken')
   ]) {
   node {
     stage('Build') {
