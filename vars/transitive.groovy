@@ -17,6 +17,6 @@ String getCommitId() {
 }
 
 def postGitHub(commitId, state, context, description, targetUrl) {
-  def payload = '{ "state":' + state + ',"context":' + context + ',"description":' + description + ',"target_url":' + targetUrl + '}'
+  def payload = '{ "state":"' + state + '","context":"' + context + '","description":"' + description + '","target_url":"' + targetUrl + '"}'
   bat "curl -H \"Authorization: token ${gitHubApiToken}\" --request POST --data '${payload}' https://api.github.com/repos/${project}/statuses/${commitId} > /dev/null"
 }
