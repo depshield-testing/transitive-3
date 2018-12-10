@@ -1,3 +1,5 @@
+@Library('transitive-pipeline-library') _
+
 node {
     stage('Build') {
         def commitId = utils.getCommitId()
