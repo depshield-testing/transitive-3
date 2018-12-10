@@ -26,7 +26,7 @@ withEnv([
         transitive.postGitHub(commitId, 'pending', 'analysis', 'Nexus Lifecycle Analysis is running', '')
 
         try {
-          def policyEvaluation = nexusPolicyEvaluation({failBuildOnNetworkError: false, iqApplication: selectedApplication('nexusPlatformPlugin'), iqStage: 'build', jobCredentialsId: ''})
+          def policyEvaluation = nexusPolicyEvaluation failBuildOnNetworkError: false, iqApplication: selectedApplication('nexusPlatformPlugin'), iqStage: 'build', jobCredentialsId: ''
           transitive.postGitHub(commitId, 'success', 'analysis', 'Nexus Lifecycle Analysis succeeded', "${policyEvaluation.applicationCompositionReportUrl}")
         } catch (error) {
           def policyEvaluation = error.policyEvaluation
