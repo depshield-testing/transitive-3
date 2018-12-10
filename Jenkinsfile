@@ -16,7 +16,7 @@ node {
 
     stage('Nexus Lifecycle Analysis') {
         def commitId = utils.getCommitId()
-        postGitHub commitId, 'pending', 'analysis', 'Nexus Lifecycle Analysis is running'
+        utils.postGitHub commitId, 'pending', 'analysis', 'Nexus Lifecycle Analysis is running'
 
         try {
           def policyEvaluation = nexusPolicyEvaluation failBuildOnNetworkError: false, iqApplication: selectedApplication('nexusPlatformPlugin'), iqStage: 'build', jobCredentialsId: ''
