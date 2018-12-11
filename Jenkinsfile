@@ -18,8 +18,8 @@ withEnv([
 
     stage('Nexus Lifecycle Analysis') {
         try {
-          def policyEvaluation = nexusPolicyEvaluation failBuildOnNetworkError: true, iqApplication: 'transitive-3', iqScanPatterns: [[scanPattern: '**/target/mod-boot*.jar']], iqStage: 'build', jobCredentialsId: 'nexus-iq'
-          def policyEvaluation2 = nexusPolicyEvaluation failBuildOnNetworkError: true, iqApplication: 'transitive-3', iqScanPatterns: [[scanPattern: '**/target/mod-orm*.jar']], iqStage: 'build', jobCredentialsId: 'nexus-iq'
+          def policyEvaluation = nexusPolicyEvaluation failBuildOnNetworkError: true, iqApplication: 'transitive-3', iqScanPatterns: [[scanPattern: '**/target/mod-boot*dependencies.jar']], iqStage: 'build', jobCredentialsId: 'nexus-iq'
+          def policyEvaluation2 = nexusPolicyEvaluation failBuildOnNetworkError: true, iqApplication: 'transitive-3', iqScanPatterns: [[scanPattern: '**/target/mod-orm*dependencies.jar']], iqStage: 'build', jobCredentialsId: 'nexus-iq'
         } catch (error) {
           throw error
         }
