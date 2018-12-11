@@ -26,8 +26,8 @@ withEnv([
 //        transitive.postGitHub(commitId, 'pending', 'analysis', 'Nexus Lifecycle Analysis is running', '')
 
         try {
-          def policyEvaluation = nexusPolicyEvaluation failBuildOnNetworkError: true, iqApplication: 'transitive-3', iqScanPatterns: [[scanPattern: 'mod-boot*.jar']], iqStage: 'build', jobCredentialsId: 'nexus-iq'
-          def policyEvaluation2 = nexusPolicyEvaluation failBuildOnNetworkError: true, iqApplication: 'transitive-3', iqScanPatterns: [[scanPattern: 'mod-orm*.jar']], iqStage: 'build', jobCredentialsId: 'nexus-iq'
+          def policyEvaluation = nexusPolicyEvaluation failBuildOnNetworkError: true, iqApplication: 'transitive-3', iqScanPatterns: [[scanPattern: '**/target/mod-boot*.jar']], iqStage: 'build', jobCredentialsId: 'nexus-iq'
+          def policyEvaluation2 = nexusPolicyEvaluation failBuildOnNetworkError: true, iqApplication: 'transitive-3', iqScanPatterns: [[scanPattern: '**/target/mod-orm*.jar']], iqStage: 'build', jobCredentialsId: 'nexus-iq'
 //          transitive.postGitHub(commitId, 'success', 'analysis', 'Nexus Lifecycle Analysis succeeded', "${policyEvaluation.applicationCompositionReportUrl}")
         } catch (error) {
 //          def policyEvaluation = error.policyEvaluation
