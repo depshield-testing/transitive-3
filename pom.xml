@@ -12,6 +12,7 @@
   <modules>
     <module>mod-boot</module>
     <module>mod-orm</module>
+    <module>mod-xml</module>
   </modules>
 
   <dependencies>

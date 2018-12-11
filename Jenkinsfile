@@ -24,6 +24,14 @@ withEnv([
           throw error
         }
     }
+
+    stage('Nexus Lifecycle Analysis II') {
+        try {
+          def policyEvaluation = nexusPolicyEvaluation failBuildOnNetworkError: true, iqApplication: 'transitive-3', iqScanPatterns: [[scanPattern: '**/target/mod-xml*dependencies.jar']], iqStage: 'release', jobCredentialsId: 'nexus-iq'
+        } catch (error) {
+          throw error
+        }
+    }
   }
   }
 }
