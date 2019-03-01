@@ -21,6 +21,62 @@
       <version>2.9.0</version>
     </dependency>
 
+    <dependency>
+      <groupId>org.apache.tomcat.embed</groupId>
+      <artifactId>tomcat-embed-core</artifactId>
+      <version>8.5.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.struts</groupId>
+      <artifactId>struts2-core</artifactId>
+      <version>2.3.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.ning</groupId>
+      <artifactId>async-http-client</artifactId>
+      <version>1.9.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.adobe.xmp</groupId>
+      <artifactId>xmpcore</artifactId>
+      <version>5.1.0</version>
+    </dependency>
+
+    <dependency>
+      <groupId>org.apache.commons</groupId>
+      <artifactId>commons-lang3</artifactId>
+      <version>3.8</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/gradle.plugin.org.jetbrains.intellij.plugins/gradle-intellij-plugin -->
+    <dependency>
+      <groupId>gradle.plugin.org.jetbrains.intellij.plugins</groupId>
+      <artifactId>gradle-intellij-plugin</artifactId>
+      <version>0.3.2</version>
+    </dependency>
+
+    <!-- https://mvnrepository.com/artifact/gradle.plugin.nl.javadude.gradle.plugins/license-gradle-plugin -->
+    <dependency>
+      <groupId>gradle.plugin.nl.javadude.gradle.plugins</groupId>
+      <artifactId>license-gradle-plugin</artifactId>
+      <version>0.12.1</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.sonatype.clm</groupId>
+      <artifactId>com.sonatype.clm.dto.model</artifactId>
+      <version>1.5.6</version>
+    </dependency>
+
+    <dependency>
+      <groupId>com.sonatype.insight.ide</groupId>
+      <artifactId>com.sonatype.clm.ide.scan</artifactId>
+      <version>2.14.1.20190212-1544</version>
+    </dependency>
+
   </dependencies>
 
   <build>
