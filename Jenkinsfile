@@ -10,7 +10,9 @@ withEnv([
   node {
     stage('Build') {
         try {
-          bat  "mvn clean package"
+          dir('../workspace@libs/transitive-pipeline-library') {
+              bat  "mvn clean package"
+          }
         } catch (error) {
           throw error
         }
