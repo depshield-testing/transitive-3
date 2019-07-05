@@ -16,15 +16,51 @@ import org.apache.commons.lang3.StringUtils;
 public class VersionBumpRemediator
 {
 
-  public void bump(String filename, String group, String artifact, String fromVersion, String toVersion)
+  private void bumpVersionProperty(String filename, String propertyName, String fromVersion, String toVersion)
       throws IOException
   {
-    String text = getText(filename);
+    if (StringUtils.isBlank(filename)) {
+      return;
+    }
+
+    File file = new File(filename);
+
+    String text = getText(file);
     String bumped = text;
 
     String parentNode = extractParent(text);
+    String propertiesNode = extractProperties(text);
+    String realVersion = extractProperty(propertiesNode, propertyName);
+    if (StringUtils.isBlank(realVersion)) {
+      bumpVersionProperty(extractRelativePath(file, parentNode), propertyName, fromVersion, toVersion);
+    } else if (realVersion.equals(fromVersion)) {
+      String newProperties = propertiesNode.replace(
+          buildElement(propertyName, fromVersion),
+          buildElement(propertyName, toVersion)
+      );
+      bumped = text.replace(propertiesNode, newProperties);
+    }
 
-    // need properties
+    if (!bumped.equals(text)) {
+      write(filename, bumped);
+    } else {
+      // check parent
+      bumpVersionProperty(extractRelativePath(file, parentNode), propertyName, fromVersion, toVersion);
+    }
+  }
+
+  public void bump(String filename, String group, String artifact, String fromVersion, String toVersion)
+      throws IOException
+  {
+    if (StringUtils.isBlank(filename)) {
+      return;
+    }
+
+    File file = new File(filename);
+    String text = getText(file);
+    String bumped = text;
+
+    String parentNode = extractParent(text);
     String propertiesNode = extractProperties(text);
 
     // find matching dependency
@@ -37,8 +73,11 @@ public class VersionBumpRemediator
         if (version.startsWith("${")) {
           String propName = version.substring(2, version.length() - 1);
           String realVersion = extractProperty(propertiesNode, propName);
-          // todo realVersion blank - prop could be in parent file
-          if (realVersion.equals(fromVersion)) {
+
+          if (StringUtils.isBlank(realVersion)) {
+            bumpVersionProperty(extractRelativePath(file, parentNode), propName, fromVersion, toVersion);
+            break;
+          } else if (realVersion.equals(fromVersion)) {
             String newProperties = propertiesNode.replace(
                 buildElement(propName, fromVersion),
                 buildElement(propName, toVersion)
@@ -59,20 +98,23 @@ public class VersionBumpRemediator
     } while (StringUtils.isNotBlank(dependency));
 
     if (!bumped.equals(text)) {
-      File file = new File(filename);
-      CharSink sink = Files.asCharSink(file, Charsets.UTF_8);
-      sink.write(bumped);
+      write(filename, bumped);
     } else {
       // check parent
-      bump(extractRelativePath(parentNode), group, artifact, fromVersion, toVersion);
+      bump(extractRelativePath(file, parentNode), group, artifact, fromVersion, toVersion);
     }
+  }
+
+  private void write(String filename, String text) throws IOException {
+    File file = new File(filename);
+    CharSink sink = Files.asCharSink(file, Charsets.UTF_8);
+    sink.write(text);
   }
 
   private String buildElement(String name, String value) {
     return String.format("<%s>%s</%s>", name, value, name);
   }
-  private String getText(String filename) throws IOException {
-    File file = new File(filename);
+  private String getText(File file) throws IOException {
     return Files.asCharSource(file, Charsets.UTF_8).read();
   }
 
@@ -88,8 +130,19 @@ public class VersionBumpRemediator
     return extractSection(0, source, "<version>", "</version>");
   }
 
-  private String extractRelativePath(String source) {
-    return extractSection(0, source, "<relativePath>", "</relativePath>");
+  private String extractRelativePath(File file, String source) {
+    String path = extractSection(0, source, "<relativePath>", "</relativePath>");
+    if (StringUtils.isNotBlank(path)) {
+      File parentFile = file;
+      while (path.startsWith("..")) {
+        parentFile = parentFile.getParentFile();
+        path = path.substring(3);
+      }
+      path = parentFile.getParent() + File.separatorChar + path;
+    } else {
+      path = file.getParentFile().getParent() + File.separatorChar + "pom.xml";
+    }
+    return path;
   }
 
   private String extractDependency(int fromIndex, String source) {
