@@ -1,4 +1,4 @@
-@Library('transitive-pipeline-library') _
+@Library('transitive3-pipeline-library') _
 
 withEnv([
     'ENVIRONMENT=dev',
