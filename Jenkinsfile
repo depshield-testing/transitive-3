@@ -1,4 +1,4 @@
-@Library('private-pipeline-library') _
+@Library('transitive-pipeline-library') _
 
 withEnv([
     'ENVIRONMENT=dev',
