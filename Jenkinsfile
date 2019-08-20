@@ -1,5 +1,3 @@
-@Library('transitive-3-pipeline-library') _
-
 withEnv([
     'ENVIRONMENT=dev',
     'project=depshield-testing/transitive-3'
