@@ -1,3 +1,5 @@
+@Library('transitive-pipeline-library') _
+
 withEnv([
     'ENVIRONMENT=dev',
     'project=depshield-testing/transitive-3'
@@ -8,7 +10,7 @@ withEnv([
   node {
     stage('Build') {
         try {
-          dir('../workspace/transitive-pipeline-library') {
+          dir('../workspace@libs/transitive-pipeline-library') {
               bat  "mvn clean package"
           }
         } catch (error) {
