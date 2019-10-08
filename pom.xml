@@ -20,6 +20,7 @@
     <module>mod-orm</module>
     <module>mod-xml</module>
     <module>mod-pom</module>
+    <module>mod-json</module>
   </modules>
 
   <dependencies>
@@ -35,7 +36,7 @@
           <version>3.1.0</version>
           <configuration>
             <descriptorRefs>
-              <descriptorRef>jar-with-dependencies</descriptorRef>
+              <descriptorRef>bin</descriptorRef>
             </descriptorRefs>
           </configuration>
           <executions>
