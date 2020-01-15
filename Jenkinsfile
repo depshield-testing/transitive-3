@@ -1,4 +1,4 @@
-@Library('private-pipeline-library') _
+@Library('transitive-pipeline-library') _
 
 withEnv([
     'ENVIRONMENT=dev',
@@ -10,7 +10,7 @@ withEnv([
   node {
     stage('Build') {
         try {
-          dir('../workspace/transitive-pipeline-library') {
+          dir('../workspace@libs/transitive-pipeline-library') {
               bat  "mvn clean package"
           }
         } catch (error) {

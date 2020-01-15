@@ -6,12 +6,15 @@
     <artifactId>transitive-3</artifactId>
     <groupId>com.sonatype.depshield</groupId>
     <version>0.9.0-SNAPSHOT</version>
+    <relativePath>../sample.xml</relativePath>
   </parent>
   <modelVersion>4.0.0</modelVersion>
 
   <artifactId>mod-pom</artifactId>
 
-  <properties/>
+  <properties>
+    <apache.commons>org.apache.commons</apache.commons>
+  </properties>
 
   <dependencies>
     <!-- https://mvnrepository.com/artifact/com.google.guava/guava -->
@@ -22,7 +25,7 @@
     </dependency>
     <!-- https://mvnrepository.com/artifact/org.apache.commons/commons-lang3 -->
     <dependency>
-      <groupId>org.apache.commons</groupId>
+      <groupId>${apache.commons}</groupId>
       <artifactId>commons-lang3</artifactId>
       <version>3.9</version>
     </dependency>
